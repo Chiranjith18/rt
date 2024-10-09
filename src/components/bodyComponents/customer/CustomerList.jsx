@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Avatar, Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import customers from "./Customers";
+
 export default class CustomerList extends Component {
   render() {
     const columns = [
@@ -9,44 +10,41 @@ export default class CustomerList extends Component {
         field: "id",
         headerName: "ID",
         width: 90,
-        description: "id of the product",
+        description: "ID of the customer",
       },
       {
         field: "fullname",
         headerName: "Full Name",
         width: 200,
-        description: "customer full name",
-        renderCell: (params) => {
-          return (
-            <>
-              <Avatar
-                alt="name"
-                variant="square"
-                sx={{ borderRadius: 1, width: 30, height: 30 }}
-              >
-                Z
-              </Avatar>
-              <Typography variant="subtitle2" sx={{ mx: 3 }}>
-                {`${params.row.firstName || ""} ${params.row.lastName || ""} `}
-              </Typography>
-            </>
-          );
-        },
+        description: "Customer full name",
+        renderCell: (params) => (
+          <>
+            <Avatar
+              alt="customer avatar"
+              sx={{ borderRadius: 1, width: 30, height: 30 }}
+            >
+              {params.row.firstName[0]} {/* Assuming first letter of the first name */}
+            </Avatar>
+            <Typography variant="subtitle2" sx={{ mx: 2 }}>
+              {`${params.row.firstName || ""} ${params.row.lastName || ""}`}
+            </Typography>
+          </>
+        ),
       },
       {
         field: "orderNumber",
-        headerName: "Number Of Order",
+        headerName: "Number Of Orders",
         width: 200,
-        description: "number of order that the customer made",
-        valueGetter: (params) => params.row.orders.length,
+        description: "Number of orders made by the customer",
+        valueGetter: (params) => params.row.orders ? params.row.orders.length : 0,
       },
       {
         field: "total",
         headerName: "Total Amount",
         width: 300,
-        description: "total amount of the order",
+        description: "Total amount of all orders",
         valueGetter: (params) => {
-          const total = 300;
+          const total = 300; // Replace with actual logic if needed
           return total;
         },
       },
@@ -54,9 +52,9 @@ export default class CustomerList extends Component {
         field: "orderHistory",
         headerName: "Order Details",
         width: 300,
-        description: "the details of the order",
+        description: "The most recent order date",
         valueGetter: (params) => {
-          const history = "03/01/2027";
+          const history = "03/01/2027"; // Replace with actual logic if needed
           return history;
         },
       },
@@ -64,10 +62,12 @@ export default class CustomerList extends Component {
         field: "mobile",
         headerName: "Mobile",
         width: 300,
-        description: "total amount of the order",
+        description: "Customer's mobile number",
       },
     ];
+
     const rows = customers;
+
     return (
       <Box
         sx={{
@@ -94,7 +94,6 @@ export default class CustomerList extends Component {
           pageSizeOptions={[15, 20, 30]}
           rowSelection={false}
         />
-        <Box></Box>
       </Box>
     );
   }
